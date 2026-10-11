@@ -1,10 +1,7 @@
 import React, { useRef } from 'react';
 import {
-  ComponentNode,
   Page,
-  DeviceViewport,
   BuilderSubMode,
-  IsaHmiTheme,
   KioskPresetId,
   KIOSK_PRESETS,
 } from '../types';
@@ -14,16 +11,9 @@ import { RotateCcw } from 'lucide-react';
 interface CanvasProps {
   activePage: Page;
   pages: Page[];
-  viewport: DeviceViewport;
   builderMode: BuilderSubMode;
-  currentTheme: IsaHmiTheme;
   kioskPresetId?: KioskPresetId;
   zoom?: number;
-  onSetTheme: (theme: IsaHmiTheme) => void;
-  onSetBuilderMode: (mode: BuilderSubMode) => void;
-  onSetViewport?: (viewport: DeviceViewport) => void;
-  onSetKioskPresetId?: (presetId: KioskPresetId) => void;
-  onSetZoom?: (zoom: number) => void;
   selectedNodeId: string | null;
   onSelectNode: (nodeId: string, e?: React.MouseEvent) => void;
   onUpdateNodeProps: (nodeId: string, newProps: any) => void;
@@ -38,24 +28,15 @@ interface CanvasProps {
   runtimeValues: Record<string, any>;
   onRuntimeValueChange: (nodeId: string, value: any) => void;
   onResetRuntimeValues: () => void;
-  onClearToBlankCanvas: () => void;
-  onLoadCtcTemplate: () => void;
   workbenchContainerRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 export const Canvas: React.FC<CanvasProps> = ({
   activePage,
   pages,
-  viewport,
   builderMode,
-  currentTheme,
   kioskPresetId = '1280x800',
   zoom = 1,
-  onSetTheme,
-  onSetBuilderMode,
-  onSetViewport,
-  onSetKioskPresetId,
-  onSetZoom,
   selectedNodeId,
   onSelectNode,
   onUpdateNodeProps,
@@ -70,8 +51,6 @@ export const Canvas: React.FC<CanvasProps> = ({
   runtimeValues,
   onRuntimeValueChange,
   onResetRuntimeValues,
-  onClearToBlankCanvas,
-  onLoadCtcTemplate,
   workbenchContainerRef: externalWorkbenchRef,
 }) => {
   const isDesignMode = builderMode === 'design';
@@ -111,7 +90,7 @@ export const Canvas: React.FC<CanvasProps> = ({
             onSelectNode(activePage.rootNode.id);
           }
         }}
-        className="flex-1 overflow-auto bg-[#18181B] bg-[radial-gradient(#27272A_1px,transparent_1px)] [background-size:24px_24px] p-6 sm:p-10 flex items-start justify-center relative cursor-default"
+        className="flex-1 overflow-auto bg-[#18181B] bg-[radial-gradient(#27272A_1px,transparent_1px)] [background-size:24px_24px] p-6 sm:p-10 flex items-start relative cursor-default"
       >
         {/* Scaled Bounding Wrapper: Reserves exact footprint so scrollbars work naturally */}
         <div
@@ -119,7 +98,7 @@ export const Canvas: React.FC<CanvasProps> = ({
             width: `${preset.width * zoom}px`,
             minHeight: `${preset.height * zoom}px`,
           }}
-          className="shrink-0 flex items-start justify-center transition-all duration-150"
+          className="shrink-0 mx-auto flex items-start justify-center transition-all duration-150"
         >
           {/* Fixed-Dimension Artboard Container: Width NEVER squeezes, scale handles zoom */}
           <div

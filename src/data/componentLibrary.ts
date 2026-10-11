@@ -1,4 +1,5 @@
 import { ComponentNode, ComponentType } from '../types';
+import { createId } from '../utils/id';
 
 export interface PrimitiveTemplateMeta {
   type: ComponentType;
@@ -18,7 +19,7 @@ export const COMPONENT_PRIMITIVES: PrimitiveTemplateMeta[] = [
     description: 'Raw, label-less white input with heavy black border. Exactly like shop-floor terminal screens.',
     icon: 'Barcode',
     createNode: () => ({
-      id: 'node-' + Math.random().toString(36).slice(2, 9),
+      id: createId('node'),
       name: 'Bare Input Box',
       type: 'input',
       style: {
@@ -48,7 +49,7 @@ export const COMPONENT_PRIMITIVES: PrimitiveTemplateMeta[] = [
     description: 'Numeric input with engineering unit and LSL/USL tolerance validation without card fluff.',
     icon: 'Gauge',
     createNode: () => ({
-      id: 'node-' + Math.random().toString(36).slice(2, 9),
+      id: createId('node'),
       name: 'Tolerance Input',
       type: 'input',
       style: {
@@ -87,7 +88,7 @@ export const COMPONENT_PRIMITIVES: PrimitiveTemplateMeta[] = [
     description: 'Glove-friendly operator text input for badge ID, lot numbers, or notes.',
     icon: 'Type',
     createNode: () => ({
-      id: 'node-' + Math.random().toString(36).slice(2, 9),
+      id: createId('node'),
       name: 'Operator ID Input',
       type: 'input',
       style: {
@@ -118,7 +119,7 @@ export const COMPONENT_PRIMITIVES: PrimitiveTemplateMeta[] = [
     description: 'Giant bold high-contrast title (e.g. MES CARRIER) readable from 2 meters away.',
     icon: 'Heading',
     createNode: () => ({
-      id: 'node-' + Math.random().toString(36).slice(2, 9),
+      id: createId('node'),
       name: 'Kiosk Title',
       type: 'text',
       style: {
@@ -140,7 +141,7 @@ export const COMPONENT_PRIMITIVES: PrimitiveTemplateMeta[] = [
     description: 'Operator instruction prompt placed beneath the input box.',
     icon: 'Type',
     createNode: () => ({
-      id: 'node-' + Math.random().toString(36).slice(2, 9),
+      id: createId('node'),
       name: 'Instruction Subtitle',
       type: 'text',
       style: {
@@ -162,7 +163,7 @@ export const COMPONENT_PRIMITIVES: PrimitiveTemplateMeta[] = [
     description: 'Station or application identifier pinned to top or bottom corner.',
     icon: 'Type',
     createNode: () => ({
-      id: 'node-' + Math.random().toString(36).slice(2, 9),
+      id: createId('node'),
       name: 'System Tag',
       type: 'text',
       style: {
@@ -184,7 +185,7 @@ export const COMPONENT_PRIMITIVES: PrimitiveTemplateMeta[] = [
     description: 'Quiet release version identifier for shop-floor tracking.',
     icon: 'Type',
     createNode: () => ({
-      id: 'node-' + Math.random().toString(36).slice(2, 9),
+      id: createId('node'),
       name: 'Version Label',
       type: 'text',
       style: {
@@ -208,7 +209,7 @@ export const COMPONENT_PRIMITIVES: PrimitiveTemplateMeta[] = [
     description: 'ISA-101 High-contrast Red (#DC2626) safety abort / exit button with square corners.',
     icon: 'SquareMousePointer',
     createNode: () => ({
-      id: 'node-' + Math.random().toString(36).slice(2, 9),
+      id: createId('node'),
       name: 'Exit Button',
       type: 'button',
       style: {
@@ -232,7 +233,7 @@ export const COMPONENT_PRIMITIVES: PrimitiveTemplateMeta[] = [
     description: 'ISA-101 Blue (#2563EB) mandatory operator action button.',
     icon: 'SquareMousePointer',
     createNode: () => ({
-      id: 'node-' + Math.random().toString(36).slice(2, 9),
+      id: createId('node'),
       name: 'Submit Button',
       type: 'button',
       style: {
@@ -256,7 +257,7 @@ export const COMPONENT_PRIMITIVES: PrimitiveTemplateMeta[] = [
     description: 'Neutral gray button that avoids alarm color noise for routine navigation.',
     icon: 'SquareMousePointer',
     createNode: () => ({
-      id: 'node-' + Math.random().toString(36).slice(2, 9),
+      id: createId('node'),
       name: 'Back Button',
       type: 'button',
       style: {
@@ -282,7 +283,7 @@ export const COMPONENT_PRIMITIVES: PrimitiveTemplateMeta[] = [
     description: 'Vertical auto-layout container centered on screen with 480px width for kiosks.',
     icon: 'Columns',
     createNode: () => ({
-      id: 'node-' + Math.random().toString(36).slice(2, 9),
+      id: createId('node'),
       name: 'Centered Kiosk Stack',
       type: 'container',
       style: {
@@ -306,7 +307,7 @@ export const COMPONENT_PRIMITIVES: PrimitiveTemplateMeta[] = [
     description: 'Bottom row container with space-between for version tag (left) and EXIT button (right).',
     icon: 'Rows',
     createNode: () => ({
-      id: 'node-' + Math.random().toString(36).slice(2, 9),
+      id: createId('node'),
       name: 'Corner Anchor Bar',
       type: 'container',
       style: {
@@ -329,7 +330,7 @@ export const COMPONENT_PRIMITIVES: PrimitiveTemplateMeta[] = [
     description: 'Two-column high-contrast layout for pairing dual inputs or telemetry metrics.',
     icon: 'LayoutGrid',
     createNode: () => ({
-      id: 'node-' + Math.random().toString(36).slice(2, 9),
+      id: createId('node'),
       name: 'Grid Panel (2 Cols)',
       type: 'container',
       style: {

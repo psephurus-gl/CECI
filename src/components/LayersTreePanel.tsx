@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { ComponentNode } from '../types';
 import {
-  Layers,
   ChevronRight,
   ChevronDown,
   Box,
   Rows,
   Columns,
   LayoutGrid,
-  Square,
   Type,
   Gauge,
   Barcode,

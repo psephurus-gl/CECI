@@ -6,12 +6,12 @@ import {
   Copy,
   ExternalLink,
   Download,
-  Share2,
   Layers,
   Link2,
 } from 'lucide-react';
 import { SiteProject } from '../types';
-import { exportSiteStandaloneHtml, extractPageEdges } from '../utils/linkUtils';
+import { extractPageEdges } from '../utils/linkUtils';
+import { exportSiteStandaloneHtml } from '../utils/exportSite';
 
 interface PublishModalProps {
   project: SiteProject;

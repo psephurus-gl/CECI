@@ -1,5 +1,8 @@
 export type DeviceViewport = 'desktop' | 'tablet' | 'mobile';
 
+/** Tabs available in the left dock of the studio. */
+export type LeftDockTab = 'pages' | 'library' | 'layers';
+
 export type KioskPresetId = '1280x800' | '1080p' | '1024x768' | 'scanner_gun' | 'custom';
 
 export interface KioskPreset {

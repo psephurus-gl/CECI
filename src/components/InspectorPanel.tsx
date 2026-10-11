@@ -12,18 +12,6 @@ import {
   Copy,
   ArrowUp,
   ArrowDown,
-  Layers,
-  ChevronDown,
-  ChevronRight,
-  Plus,
-  LayoutGrid,
-  Rows,
-  Columns,
-  Square,
-  Type,
-  Gauge,
-  CircleDot,
-  SquareMousePointer,
   Check,
 } from 'lucide-react';
 

@@ -3,7 +3,7 @@ import {
   COMPONENT_PRIMITIVES,
   PrimitiveTemplateMeta,
 } from '../data/componentLibrary';
-import { ComponentNode } from '../types';
+import { } from '../types';
 import {
   Plus,
   PanelLeftClose,

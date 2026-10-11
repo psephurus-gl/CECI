@@ -7,20 +7,16 @@ import {
   Sliders,
   FileSpreadsheet,
   Cpu,
-  ChevronRight,
   Monitor,
   ZoomIn,
   ZoomOut,
   Maximize2,
   Edit3,
   Moon,
-  Sun,
-  Palette,
 } from 'lucide-react';
 import {
   AppMode,
   BuilderSubMode,
-  DeviceViewport,
   IsaHmiTheme,
   KIOSK_PRESETS,
   KioskPresetId,
@@ -37,6 +33,7 @@ interface TopNavbarProps {
   onToggleInspector: () => void;
   onPublishClick: () => void;
   onUpdateProjectName: (name: string) => void;
+  onGoHome: () => void;
 
   // Integrated Canvas Controls
   builderMode: BuilderSubMode;
@@ -62,6 +59,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
   onToggleInspector,
   onPublishClick,
   onUpdateProjectName,
+  onGoHome,
   builderMode,
   onSetBuilderMode,
   kioskPresetId,
@@ -88,9 +86,15 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
       {/* 1. LEFT ZONE: Brand, Project Name & Active Station Breadcrumb */}
       <div className="flex items-center gap-2 min-w-0 shrink-0">
         <div className="flex items-center gap-1.5">
-          <div className="w-6 h-6 rounded bg-blue-600 text-white flex items-center justify-center font-black text-[11px] shadow-xs shrink-0">
+          <button
+            type="button"
+            onClick={onGoHome}
+            className="w-6 h-6 rounded bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center shadow-xs shrink-0 transition-colors"
+            title="Back to start page"
+            aria-label="Back to start page"
+          >
             <Cpu className="w-3.5 h-3.5" />
-          </div>
+          </button>
           <input
             type="text"
             value={project.name}

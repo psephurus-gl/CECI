@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { DeviceViewport, Page, SiteProject, ProductionLogRecord } from '../types';
+import { DeviceViewport, SiteProject } from '../types';
 import { ComponentRenderer } from './ComponentRenderer';
 import { ProductionLogDrawer } from './ProductionLogDrawer';
+import { Toast } from './Toast';
+import { useOperatorRuntime } from '../hooks/useOperatorRuntime';
+import { useToast } from '../hooks/useToast';
 import {
   Share2,
   Monitor,
@@ -30,10 +33,8 @@ export const PublishedView: React.FC<PublishedViewProps> = ({
   );
   const [viewport, setViewport] = useState<DeviceViewport>('desktop');
   const [isCopied, setIsCopied] = useState(false);
-  const [runtimeValues, setRuntimeValues] = useState<Record<string, any>>({});
-  const [productionLogs, setProductionLogs] = useState<ProductionLogRecord[]>([]);
   const [isLogDrawerOpen, setIsLogDrawerOpen] = useState(false);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const { toastMessage, showToast } = useToast();
 
   const activePage = project.pages.find((p) => p.id === activePageId) || project.pages[0];
 
@@ -62,48 +63,19 @@ export const PublishedView: React.FC<PublishedViewProps> = ({
     }
   };
 
+  const { runtimeValues, productionLogs, setRuntimeValue, clearLogs, triggerAction } =
+    useOperatorRuntime({
+      station: activePage,
+      notify: showToast,
+      onExit: onExitPublished,
+      onNavigate: handleNavigate,
+    });
+
   const handleCopyLink = () => {
-    const url = `${window.location.origin}${window.location.pathname}#${activePage?.slug || 'ctc-carrier'}`;
+    const url = `${window.location.origin}${window.location.pathname}#${activePage.slug}`;
     navigator.clipboard.writeText(url);
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
-  };
-
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3000);
-  };
-
-  const handleActionTrigger = (actionType: string, meta?: any) => {
-    if (actionType === 'exit') {
-      onExitPublished();
-    } else if (actionType === 'submit_log') {
-      const newRecord: ProductionLogRecord = {
-        id: 'log-' + Date.now(),
-        timestamp: new Date().toLocaleTimeString(),
-        stationId: activePage.id,
-        stationName: activePage.name,
-        workOrderId: 'WO-8842',
-        lotNumber: runtimeValues['carrier-barcode-input'] || 'SN-7849-B2',
-        operatorId: 'OP-402',
-        status: 'PASS',
-        data: { ...runtimeValues },
-      };
-
-      setProductionLogs((prev) => [newRecord, ...prev]);
-      showToast(`Batch recorded: ${newRecord.lotNumber}`);
-
-      if (meta?.targetPageId) {
-        setTimeout(() => {
-          handleNavigate(meta.targetPageId);
-        }, 350);
-      }
-    } else if (actionType === 'toggle_hold') {
-      showToast('Work order placed ON HOLD.');
-    } else if (actionType === 'clear_inputs') {
-      setRuntimeValues({});
-      showToast('Station input reset.');
-    }
   };
 
   const getViewportContainerClass = () => {
@@ -219,12 +191,7 @@ export const PublishedView: React.FC<PublishedViewProps> = ({
         </div>
       </header>
 
-      {/* Toast Notification */}
-      {toastMessage && (
-        <div className="fixed top-14 z-50 px-4 py-2 bg-stone-900 border-2 border-stone-700 text-white text-xs font-bold shadow-xl">
-          {toastMessage}
-        </div>
-      )}
+      <Toast message={toastMessage} />
 
       {/* Main MES Terminal Viewport */}
       <main className="w-full flex-1 flex flex-col items-center justify-center p-4">
@@ -239,11 +206,9 @@ export const PublishedView: React.FC<PublishedViewProps> = ({
             onUpdateNodeProps={() => {}}
             onUpdateNodeStyle={() => {}}
             onNavigate={handleNavigate}
-            onActionTrigger={handleActionTrigger}
+            onActionTrigger={triggerAction}
             runtimeValues={runtimeValues}
-            onRuntimeValueChange={(nodeId, val) =>
-              setRuntimeValues((prev) => ({ ...prev, [nodeId]: val }))
-            }
+            onRuntimeValueChange={setRuntimeValue}
           />
         </div>
       </main>
@@ -253,7 +218,7 @@ export const PublishedView: React.FC<PublishedViewProps> = ({
         isOpen={isLogDrawerOpen}
         logs={productionLogs}
         onClose={() => setIsLogDrawerOpen(false)}
-        onClearLogs={() => setProductionLogs([])}
+        onClearLogs={clearLogs}
       />
     </div>
   );

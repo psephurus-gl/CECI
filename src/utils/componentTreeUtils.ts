@@ -1,4 +1,11 @@
 import { ComponentNode } from '../types';
+import { createId } from './id';
+
+/** Visit every node in the tree depth-first (parents before children). */
+export function walkTree(root: ComponentNode, visit: (node: ComponentNode) => void): void {
+  visit(root);
+  root.children?.forEach((child) => walkTree(child, visit));
+}
 
 /**
  * Recursively find a node by its ID in the component tree
@@ -149,7 +156,7 @@ export function moveNodeInTree(
  * Deep clone a node with fresh random IDs
  */
 export function cloneNodeWithFreshIds(node: ComponentNode): ComponentNode {
-  const freshId = 'node-' + Math.random().toString(36).slice(2, 9);
+  const freshId = createId('node');
   return {
     ...node,
     id: freshId,
@@ -176,24 +183,6 @@ export function duplicateNodeInTree(root: ComponentNode, id: string): ComponentN
     ...p,
     children: updatedChildren,
   }));
-}
-
-/**
- * Get sibling positioning info for a node (canMoveUp, canMoveDown, index, total, parentId)
- */
-export function getNodeSiblingInfo(
-  root: ComponentNode,
-  id: string
-): { canMoveUp: boolean; canMoveDown: boolean; index: number; total: number; parentId: string } | null {
-  const found = findParentNode(root, id);
-  if (!found || !found.parent.children) return null;
-  return {
-    canMoveUp: found.index > 0,
-    canMoveDown: found.index < found.parent.children.length - 1,
-    index: found.index,
-    total: found.parent.children.length,
-    parentId: found.parent.id,
-  };
 }
 
 /**
@@ -252,46 +241,4 @@ export function repositionNodeInTree(
 
   // Step 2: Insert into new container at targetIndex
   return insertNodeIntoTree(treeWithoutSource, targetContainerId, sourceNode, targetIndex);
-}
-
-/**
- * Recursively find all connected page links in the component tree
- */
-export function extractAllLinks(root: ComponentNode): { label: string; targetPageId: string }[] {
-  const links: { label: string; targetPageId: string }[] = [];
-
-  function traverse(node: ComponentNode) {
-    if (node.type === 'button' && node.props?.targetPageId) {
-      links.push({
-        label: node.props.label || 'Button Link',
-        targetPageId: node.props.targetPageId,
-      });
-    }
-    if (node.type === 'select' && Array.isArray(node.props?.options)) {
-      for (const opt of node.props.options) {
-        if (opt.targetPageId) {
-          links.push({
-            label: opt.label || 'Select Option Link',
-            targetPageId: opt.targetPageId,
-          });
-        }
-      }
-    }
-    if (node.type === 'table' && node.props?.rowTargetPages) {
-      Object.entries(node.props.rowTargetPages).forEach(([rIdx, pageId]) => {
-        if (pageId && typeof pageId === 'string') {
-          links.push({
-            label: `Row ${Number(rIdx) + 1} Link`,
-            targetPageId: pageId,
-          });
-        }
-      });
-    }
-    if (node.children) {
-      node.children.forEach(traverse);
-    }
-  }
-
-  traverse(root);
-  return links;
 }

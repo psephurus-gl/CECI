@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
   ComponentNode,
-  ComponentStyle,
 } from '../types';
-import { COMPONENT_PRIMITIVES, PrimitiveTemplateMeta } from '../data/componentLibrary';
+import { COMPONENT_PRIMITIVES } from '../data/componentLibrary';
 import {
   Rows,
   Columns,
@@ -12,17 +11,10 @@ import {
   Trash2,
   Copy,
   ArrowUp,
-  Tag,
-  Gauge,
-  Barcode,
   Layers,
   ChevronDown,
   ChevronUp,
   GripVertical,
-  Check,
-  Sliders,
-  MoveHorizontal,
-  MoveVertical,
 } from 'lucide-react';
 
 interface InCanvasFloatingToolbarProps {
@@ -80,7 +72,6 @@ export const InCanvasFloatingToolbar: React.FC<InCanvasFloatingToolbarProps> = (
   const currentDirection = style.flexDirection || 'column';
   const currentGridCols = style.gridCols || 2;
   const currentGap = style.gap !== undefined ? style.gap : 4;
-  const currentPadding = style.padding !== undefined ? style.padding : 4;
 
   const handleSetLayoutMode = (mode: 'col' | 'row' | 'grid2' | 'grid3') => {
     if (mode === 'col') {

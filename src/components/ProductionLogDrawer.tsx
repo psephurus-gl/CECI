@@ -8,7 +8,6 @@ import {
   AlertTriangle,
   FileSpreadsheet,
   Clock,
-  Layers,
 } from 'lucide-react';
 
 interface ProductionLogDrawerProps {

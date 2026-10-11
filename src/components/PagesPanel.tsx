@@ -14,7 +14,6 @@ import {
   X,
 } from 'lucide-react';
 import { Page } from '../types';
-import { extractPageEdges } from '../utils/linkUtils';
 
 interface PagesPanelProps {
   pages: Page[];
@@ -46,8 +45,6 @@ export const PagesPanel: React.FC<PagesPanelProps> = ({
   const [draggedPageIndex, setDraggedPageIndex] = useState<number | null>(null);
   const [isTipExpanded, setIsTipExpanded] = useState(false);
 
-  const edges = extractPageEdges(pages);
-
   const handleCreateSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newPageName.trim()) return;
@@ -59,7 +56,7 @@ export const PagesPanel: React.FC<PagesPanelProps> = ({
     onAddPage({
       name: newPageName.trim(),
       slug: slug || 'new-page',
-      title: `${newPageName.trim()} — Studio Nova`,
+      title: `${newPageName.trim()} — Studio`,
       description: `Explore the ${newPageName.trim()} page.`,
       isHome: pages.length === 0,
       isPublished: true,
@@ -69,12 +66,6 @@ export const PagesPanel: React.FC<PagesPanelProps> = ({
     setNewPageName('');
     setNewPageSlug('');
     setIsCreating(false);
-  };
-
-  const getPageLinkCount = (pageId: string) => {
-    const incoming = edges.filter((e) => e.targetPageId === pageId).length;
-    const outgoing = edges.filter((e) => e.sourcePageId === pageId).length;
-    return { incoming, outgoing };
   };
 
   return (
@@ -164,7 +155,6 @@ export const PagesPanel: React.FC<PagesPanelProps> = ({
       <div className="flex-1 overflow-y-auto p-1.5 space-y-0.5">
         {pages.map((page, index) => {
           const isActive = page.id === activePageId;
-          const { incoming, outgoing } = getPageLinkCount(page.id);
           const isSettingsOpen = editingSettingsPageId === page.id;
 
           return (

@@ -1,8 +1,0 @@
-{
-  "name": "Remix Pagedraft - Drag \u0026 Drop Site Builder",
-  "description": "Visual drag-and-drop website builder to design pages, create inter-page links, and instantly publish interconnected web experiences.",
-  "requestFramePermissions": [],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
-}

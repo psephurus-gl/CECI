@@ -8,12 +8,12 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
 } from 'lucide-react';
-import { AppMode } from '../types';
+import { AppMode, LeftDockTab } from '../types';
 
 interface ActivityRailProps {
-  activeTab: 'pages' | 'library' | 'layers';
+  activeTab: LeftDockTab;
   isDrawerOpen: boolean;
-  onSelectTab: (tab: 'pages' | 'library' | 'layers') => void;
+  onSelectTab: (tab: LeftDockTab) => void;
   onToggleDrawer: () => void;
   mode: AppMode;
   onSetMode: (mode: AppMode) => void;
@@ -31,7 +31,7 @@ export const ActivityRail: React.FC<ActivityRailProps> = ({
   productionLogsCount,
   onOpenLogs,
 }) => {
-  const handleTabClick = (tab: 'pages' | 'library' | 'layers') => {
+  const handleTabClick = (tab: LeftDockTab) => {
     if (mode !== 'editor') {
       onSetMode('editor');
       onSelectTab(tab);

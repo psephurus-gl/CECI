@@ -3,22 +3,15 @@ import {
   FileText,
   Home,
   Link2,
-  Plus,
-  ArrowRight,
-  Maximize2,
-  ExternalLink,
-  Layers,
-  Sparkles,
 } from 'lucide-react';
 import { Page } from '../types';
-import { extractPageEdges, LinkEdge } from '../utils/linkUtils';
+import { extractPageEdges } from '../utils/linkUtils';
 
 interface VisualLinkGraphProps {
   pages: Page[];
   activePageId: string;
   onSelectPage: (pageId: string) => void;
   onLinkPages: (sourcePageId: string, targetPageId: string) => void;
-  onAddPage: () => void;
 }
 
 export const VisualLinkGraph: React.FC<VisualLinkGraphProps> = ({
@@ -26,7 +19,6 @@ export const VisualLinkGraph: React.FC<VisualLinkGraphProps> = ({
   activePageId,
   onSelectPage,
   onLinkPages,
-  onAddPage,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [connectingSourceId, setConnectingSourceId] = useState<string | null>(null);
@@ -41,7 +33,7 @@ export const VisualLinkGraph: React.FC<VisualLinkGraphProps> = ({
     const radiusX = 280;
     const radiusY = 160;
 
-    pages.forEach((page, index) => {
+    pages.forEach((page) => {
       // Place home in center-left, others arranged around
       if (page.isHome) {
         map[page.id] = { x: 160, y: centerY };
@@ -164,7 +156,6 @@ export const VisualLinkGraph: React.FC<VisualLinkGraphProps> = ({
           if (!srcPos || !tgtPos) return null;
 
           const dx = tgtPos.x - srcPos.x;
-          const dy = tgtPos.y - srcPos.y;
           const cx1 = srcPos.x + dx * 0.5;
           const cy1 = srcPos.y;
           const cx2 = srcPos.x + dx * 0.5;
